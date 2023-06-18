@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider";
 import { useNavigate } from "react-router";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import { CartContext } from "../CartContext";
 
 function EditCart() {
-  const [cart, setCart] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { cart, updateCartItemCount, loading } = useContext(CartContext);
   const { authState } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -16,14 +16,15 @@ function EditCart() {
   }, []);
 
   const fetchCart = async () => {
-    try {
-      const url = `http://localhost:8080/carts/${authState.userId}`;
-      const response = await axios.get(url);
-      setCart(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error occurred while fetching cart:", error);
-      setLoading(false);
+    if (authState.userId) {
+      try {
+        const url = `http://localhost:8080/carts/${authState.userId}`;
+        const response = await axios.get(url);
+        const totalItems = response.data.totalItems;
+        updateCartItemCount(totalItems); // Update the cart item count in CartContext
+      } catch (error) {
+        console.error("Error occurred while fetching cart:", error);
+      }
     }
   };
 
@@ -33,6 +34,8 @@ function EditCart() {
       await axios.delete(url);
       // Refresh the cart after deleting the item
       fetchCart();
+      // Update the cart item count in the context
+      updateCartItemCount((previousCount) => previousCount - 1);
       console.log(`Deleted item with ID ${productId}`);
     } catch (error) {
       console.error("Error occurred while deleting item:", error);
@@ -43,8 +46,8 @@ function EditCart() {
     try {
       const url = `http://localhost:8080/carts/${authState.userId}`;
       await axios.delete(url);
-      // Set the cart to null to indicate that the cart is empty
-      setCart(null);
+      // Update the cart item count in the context
+      updateCartItemCount(0);
       console.log("Deleted the entire cart");
     } catch (error) {
       console.error("Error occurred while deleting cart:", error);

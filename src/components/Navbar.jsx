@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 import Navbar from "react-bootstrap/Navbar";
@@ -6,10 +6,11 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
+import { CartContext } from "../CartContext";
 
 const CNavbar = () => {
+  const { cart, updateCartItemCount } = useContext(CartContext);
   const { authState, setAuthState } = useContext(AuthContext);
-  const [cartItemCount, setCartItemCount] = useState(0);
 
   const handleLogout = () => {
     // Clear the authentication state and remove the token and username from localStorage
@@ -24,7 +25,7 @@ const CNavbar = () => {
         const url = `http://localhost:8080/carts/${authState.userId}`;
         const response = await axios.get(url);
         const totalItems = response.data.totalItems;
-        setCartItemCount(totalItems);
+        updateCartItemCount(totalItems);
       } catch (error) {
         console.error("Error occurred while fetching cart items:", error);
       }
@@ -33,7 +34,7 @@ const CNavbar = () => {
     if (authState.userId) {
       fetchCartItemCount();
     }
-  }, [authState.userId]);
+  }, [authState.userId, updateCartItemCount]);
 
   return (
     <Navbar bg="black" expand="lg" variant="dark">
@@ -65,8 +66,8 @@ const CNavbar = () => {
           <Nav.Link as={Link} to="/cart" className="ml-auto text-white">
             <div className="d-flex align-items-center">
               <FaShoppingCart size={20} color="white" />
-              {cartItemCount > 0 && (
-                <span className="ml-1">{cartItemCount}</span>
+              {cart && cart.totalItems > 0 && (
+                <span className="ml-1">{cart.totalItems}</span>
               )}
               <span className="ml-1">Cart</span>
             </div>

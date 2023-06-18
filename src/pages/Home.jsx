@@ -8,6 +8,7 @@ function Home() {
   const [quantity, setQuantity] = useState(1);
   const { authState } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   const fetchProducts = async () => {
     try {
@@ -21,6 +22,10 @@ function Home() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const updateCartItemCount = (count) => {
+    setCartItemCount(count);
+  };
 
   const handleAddToCart = async (productId, quantity) => {
     if (authState && authState.username) {
@@ -38,6 +43,9 @@ function Home() {
           `${userId} is adding product with ID ${productId} to cart with quantity ${quantity}`
         );
         console.log("Success");
+
+        // Update the cart item count
+        updateCartItemCount(cartItemCount + 1);
 
         // Navigate to the cart page
         navigate("/");
