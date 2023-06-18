@@ -21,7 +21,6 @@ function Cart() {
     };
 
     if (authState.userId) {
-      console.log("userId:", authState.userId);
       fetchCart();
     }
   }, [authState.userId]);
@@ -38,6 +37,16 @@ function Cart() {
     <div>
       <h2>Cart</h2>
       <p>Total Items: {cart.totalItems}</p>
+      <ul>
+        {cart.items.map((item) => (
+          <li key={item.productId}>
+            <p>Product Name: {item.productName}</p>
+            <p>Price: {item.price}</p>
+            <p>Quantity: {item.quantity}</p>
+            <p>Url: {item.url}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

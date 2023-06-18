@@ -52,15 +52,15 @@ const CNavbar = () => {
               Login
             </Nav.Link>
           )}
-          {cartItemCount > 0 && (
-            <Nav.Link as={Link} to="/cart" className="ml-auto text-white">
-              <div className="d-flex align-items-center">
-                <span className="mr-1">{cartItemCount}</span>
-                <FaShoppingCart size={20} color="white" />
-                <span className="ml-1">Cart</span>
-              </div>
-            </Nav.Link>
-          )}
+          <Nav.Link as={Link} to="/cart" className="ml-auto text-white">
+            <div className="d-flex align-items-center">
+              <FaShoppingCart size={20} color="white" />
+              {cartItemCount > 0 && (
+                <span className="ml-1">{cartItemCount}</span>
+              )}
+              <span className="ml-1">Cart</span>
+            </div>
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
