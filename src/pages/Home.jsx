@@ -22,12 +22,28 @@ function Home() {
     fetchProducts();
   }, []);
 
-  const handleAddToCart = (productId, quantity) => {
+  const handleAddToCart = async (productId, quantity) => {
     if (authState && authState.username) {
-      console.log(
-        `${authState.userId} is adding product with ID ${productId} to cart with quantity ${quantity}`
-      );
-      console.log("Success");
+      try {
+        const userId = authState.userId;
+        const url = `http://localhost:8080/carts/${userId}`;
+
+        // Send a POST request to add the item to the cart
+        const response2 = await axios.post(url, {
+          productId: productId,
+          quantity: quantity,
+        });
+
+        console.log(
+          `${userId} is adding product with ID ${productId} to cart with quantity ${quantity}`
+        );
+        console.log("Success");
+
+        // Navigate to the cart page
+        navigate("/");
+      } catch (error) {
+        console.error("Error occurred while adding item to cart:", error);
+      }
     } else {
       // Navigate to the login page
       navigate("/login");
