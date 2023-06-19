@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
       const url = `http://localhost:8080/carts/${authState.userId}`;
       const response = await axios.get(url);
       const cartData = response.data;
-      setCart(cartData);
+      setCart(cartData); // Update the cart state with the fetched data
       setLoading(false);
     } catch (error) {
       console.error("Error occurred while fetching cart items:", error);

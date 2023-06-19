@@ -77,5 +77,4 @@ const CNavbar = () => {
     </Navbar>
   );
 };
-
 export default CNavbar;
