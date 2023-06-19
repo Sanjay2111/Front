@@ -2,8 +2,9 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
+import { FaHeart } from "react-icons/fa";
 
-function Home() {
+function Phone() {
   const [products, setProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const { authState } = useContext(AuthContext);
@@ -102,6 +103,14 @@ function Home() {
                       Add to Cart
                     </button>
                   </div>
+                  <div>
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => handleAddToCart(product.id, quantity)}
+                    >
+                      Add to Wishlist <FaHeart style={{ color: "red" }} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,4 +121,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Phone;
