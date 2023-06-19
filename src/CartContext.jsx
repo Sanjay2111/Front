@@ -11,16 +11,17 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (authState.userId) {
-      fetchCart();
+      fetchCartData();
     }
   }, [authState.userId]);
 
-  const fetchCart = async () => {
+  const fetchCartData = async () => {
     try {
       const url = `http://localhost:8080/carts/${authState.userId}`;
       const response = await axios.get(url);
       const cartData = response.data;
-      setCart(cartData); // Update the cart state with the fetched data
+      console.log(cartData.cartId); // Access the cartId value
+      setCart(cartData);
       setLoading(false);
     } catch (error) {
       console.error("Error occurred while fetching cart items:", error);

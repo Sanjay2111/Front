@@ -4,18 +4,19 @@ import { AuthContext } from "../AuthProvider";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router";
+import { CartContext } from "../CartContext";
 
 function Cart() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const { authState } = useContext(AuthContext);
+  const { cart: cartContext, updateCartItemCount } = useContext(CartContext);
   const navigate = useNavigate();
 
   const fetchCart = async () => {
     try {
       const url = `http://localhost:8080/carts/${authState.userId}`;
       const response = await axios.get(url);
-      console.log(response.data); // Debugging: Log the response data to the console
       if (response.data.items.length === 0) {
         setCart(null);
       } else {
@@ -37,6 +38,17 @@ function Cart() {
       fetchCart();
     }
   }, [authState.userId]);
+
+  const handleDeleteCart = async () => {
+    try {
+      const url = `http://localhost:8080/carts/${cartContext.cartId}`;
+      await axios.delete(url);
+      updateCartItemCount(0); // Reset the cart item count in the context
+      setCart(null); // Reset the local cart state
+    } catch (error) {
+      console.error("Error occurred while deleting cart:", error);
+    }
+  };
 
   const handleDeleteItem = async (productId) => {
     try {
@@ -113,6 +125,14 @@ function Cart() {
       <div className="text-center mt-4">
         <Button variant="primary" size="lg" onClick={handleCheckout}>
           Checkout
+        </Button>
+        <Button
+          variant="danger"
+          size="lg"
+          className="ml-3"
+          onClick={handleDeleteCart}
+        >
+          Delete Cart
         </Button>
       </div>
     </div>
