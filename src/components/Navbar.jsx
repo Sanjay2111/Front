@@ -4,9 +4,10 @@ import { AuthContext } from "../AuthProvider";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { CartContext } from "../CartContext";
+import "../pages/style1.css";
 
 const CNavbar = () => {
   const { cart, updateCartItemCount } = useContext(CartContext);
@@ -37,21 +38,39 @@ const CNavbar = () => {
   }, [authState.userId, updateCartItemCount]);
 
   return (
-    <Navbar bg="black" expand="lg" variant="dark">
-      <Navbar.Brand as={Link} to="/" className="text-white">
-        My App
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbar-nav" />
-      <Navbar.Collapse id="navbar-nav">
-        <Nav className="ml-auto">
-          <Nav.Link as={Link} to="/" className="text-white">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to="/dashboard" className="text-white">
-            Dashboard
-          </Nav.Link>
+    <>
+      <Navbar
+        bg="black"
+        expand="lg"
+        variant="dark"
+        className="justify-content-between"
+      >
+        <Navbar.Brand as={Link} to="/" className="text-white">
+          My App
+        </Navbar.Brand>
+        <Nav.Link as={Link} to="/" className="text-white">
+          Home
+        </Nav.Link>
+        <Nav.Link as={Link} to="/deals" className="text-white">
+          Deals
+        </Nav.Link>
+        <Nav>
+          <div className="input-group mr-3" style={{ width: "300px" }}>
+            <input type="text" placeholder="Search" className="form-control" />
+            <div className="input-group-append">
+              <button className="btn btn-outline-light" type="button">
+                <FaSearch />
+              </button>
+            </div>
+          </div>
+        </Nav>
+        <Nav>
           {authState && authState.username ? (
-            <NavDropdown title={authState.username} id="navbar-dropdown">
+            <NavDropdown
+              title={"Hello," + authState.username}
+              id="navbar-dropdown"
+              className="custom-dropdown"
+            >
               <NavDropdown.Item as={Link} to="/orders">
                 Orders
               </NavDropdown.Item>
@@ -59,22 +78,25 @@ const CNavbar = () => {
               <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
           ) : (
-            <Nav.Link as={Link} to="/login" className="text-white">
+            <Nav.Link as={Link} to="/login" className="text-white ml-3">
               Login
             </Nav.Link>
           )}
-          <Nav.Link as={Link} to="/cart" className="ml-auto text-white">
+          <Nav.Link as={Link} to="/cart" className="text-white">
             <div className="d-flex align-items-center">
-              <FaShoppingCart size={20} color="white" />
+              <FaShoppingCart size={30} color="white" />{" "}
+              {/* Adjust the size as per your preference */}
               {cart && cart.totalItems > 0 && (
-                <span className="ml-1">{cart.totalItems}</span>
+                <span className="ml-1 text-danger" style={{ fontSize: "24px" }}>
+                  {cart.totalItems}
+                </span>
               )}
-              <span className="ml-1">Cart</span>
             </div>
           </Nav.Link>
         </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+      </Navbar>
+    </>
   );
 };
+
 export default CNavbar;

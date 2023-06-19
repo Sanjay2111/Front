@@ -13,7 +13,10 @@ function Home() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8080/products");
-      setProducts(response.data);
+      const laptopProducts = response.data.filter(
+        (product) => product.category.toLowerCase() === "phone"
+      );
+      setProducts(laptopProducts);
     } catch (error) {
       console.error("Error occurred while fetching products:", error);
     }

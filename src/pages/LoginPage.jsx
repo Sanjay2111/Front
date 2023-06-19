@@ -119,7 +119,7 @@ const LoginPage = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="col-lg-6 border border-primary p-4">
+      <div className="col-lg-4 border border-primary p-4 bg-white">
         {formMode === "login" ? (
           <>
             <h2 className="text-center">Login</h2>

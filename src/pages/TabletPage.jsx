@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 
-function Home() {
+function Tablets() {
   const [products, setProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const { authState } = useContext(AuthContext);
@@ -13,7 +13,10 @@ function Home() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8080/products");
-      setProducts(response.data);
+      const laptopProducts = response.data.filter(
+        (product) => product.category.toLowerCase() === "tablets"
+      );
+      setProducts(laptopProducts);
     } catch (error) {
       console.error("Error occurred while fetching products:", error);
     }
@@ -109,4 +112,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Tablets;
