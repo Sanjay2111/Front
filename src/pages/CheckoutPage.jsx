@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router";
 import { CartContext } from "../CartContext";
 import { FaArrowRight } from "react-icons/fa";
 import "./style1.css";
 
-function Cart() {
+function CheckoutPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const { authState } = useContext(AuthContext);
@@ -41,27 +39,6 @@ function Cart() {
     }
   }, [authState.userId]);
 
-  const handleDeleteCart = async () => {
-    try {
-      const url = `http://localhost:8080/carts/${cartContext.cartId}`;
-      await axios.delete(url);
-      updateCartItemCount(0); // Reset the cart item count in the context
-      setCart(null); // Reset the local cart state
-    } catch (error) {
-      console.error("Error occurred while deleting cart:", error);
-    }
-  };
-
-  const handleDeleteItem = async (productId) => {
-    try {
-      const url = `http://localhost:8080/carts/${authState.userId}/${productId}`;
-      await axios.delete(url);
-      fetchCart();
-    } catch (error) {
-      console.error("Error occurred while deleting item:", error);
-    }
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -75,8 +52,8 @@ function Cart() {
     0
   );
 
-  const handleCheckout = () => {
-    navigate("/checkout");
+  const handleSubmit = () => {
+    navigate("/payment");
   };
 
   return (
@@ -100,7 +77,6 @@ function Cart() {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Item Total</th>
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -113,44 +89,41 @@ function Cart() {
                     <td>${item.price}</td>
                     <td>{item.quantity}</td>
                     <td>${(item.price * item.quantity).toFixed(2)}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger delete-button"
-                        onClick={() => handleDeleteItem(item.productId)}
-                      >
-                        Delete
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan="5">Cart Total:</td>
+                  <td colSpan="4">Cart Total:</td>
                   <td>${totalPrice.toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td colSpan="6">
-                    <button
-                      className="btn btn-danger delete-button"
-                      onClick={handleDeleteCart}
-                    >
-                      Delete Cart
-                    </button>
-                  </td>
                 </tr>
               </tfoot>
             </table>
           </div>
-          <div className="col-md-3 d-flex align-items-center justify-content-center  text-warning text-decoration-underline">
+          <div className="col-md-3 d-flex align-items-center justify-content-center text-warning text-decoration-underline">
             <div className="cart" style={{ width: "100%" }}>
               <div>
+                <table className="table">
+                  <tbody>
+                    <tr>
+                      <td>Cart Total:</td>
+                      <td>${totalPrice.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>Sales Tax (6%):</td>
+                      <td>${(totalPrice * 0.06).toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>Total:</td>
+                      <td>${(totalPrice + totalPrice * 0.06).toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+                </table>
                 <p className="text-break">
-                  Your order qualifies for FREE Shipping. Choose this option at
-                  checkout.
+                  This will redirect to our online secure payment system.
                 </p>
-                <button className="btn btn-primary" onClick={handleCheckout}>
-                  Go to Checkout <FaArrowRight />
+                <button className="btn btn-primary" onClick={handleSubmit}>
+                  Submit Payment
                 </button>
               </div>
             </div>
@@ -161,4 +134,4 @@ function Cart() {
   );
 }
 
-export default Cart;
+export default CheckoutPage;

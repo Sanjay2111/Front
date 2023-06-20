@@ -11,6 +11,9 @@ import Tablets from "./pages/TabletPage";
 import Accessories from "./pages/AccessoriesPage";
 import Cameras from "./pages/CameraPage";
 import WishlistPage from "./pages/WishlistPage";
+import DealsPage from "./pages/DealsPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/tablets" element={<Tablets />} />
         <Route path="/accessories" element={<Accessories />} />
         <Route path="/cameras" element={<Cameras />} />
+        <Route path="/deals" element={<DealsPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
       </Routes>
     </Router>
   );
