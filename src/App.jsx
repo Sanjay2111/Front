@@ -10,6 +10,7 @@ import Phone from "./pages/Phonepage";
 import Tablets from "./pages/TabletPage";
 import Accessories from "./pages/AccessoriesPage";
 import Cameras from "./pages/CameraPage";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/laptop" element={<LaptopPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/phone" element={<Phone />} />
         <Route path="/tablets" element={<Tablets />} />
         <Route path="/accessories" element={<Accessories />} />

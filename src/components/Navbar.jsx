@@ -72,6 +72,12 @@ const CNavbar = () => {
               className="custom-dropdown"
             >
               <NavDropdown.Item as={Link} to="/orders">
+                Account
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/wishlist">
+                Wishlist
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/orders">
                 Orders
               </NavDropdown.Item>
               <NavDropdown.Divider />

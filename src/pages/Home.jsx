@@ -33,28 +33,42 @@ function Home() {
       try {
         const userId = authState.userId;
         const url = `http://localhost:8080/carts/${userId}`;
-
-        // Send a POST request to add the item to the cart
         const response2 = await axios.post(url, {
           productId: productId,
           quantity: quantity,
         });
-
         console.log(
           `${userId} is adding product with ID ${productId} to cart with quantity ${quantity}`
         );
         console.log("Success");
-
-        // Update the cart item count
         updateCartItemCount(cartItemCount + 1);
-
-        // Navigate to the cart page
-        // navigate("/");
       } catch (error) {
         console.error("Error occurred while adding item to cart:", error);
       }
     } else {
-      // Navigate to the login page
+      navigate("/login");
+    }
+  };
+  const handleAddToWishlist = async (productId, productName, price, url) => {
+    if (authState && authState.userId) {
+      try {
+        const userId = authState.userId;
+        const urll = `http://localhost:8080/wishlist`;
+        const response3 = await axios.post(urll, {
+          userId: userId,
+          productId: productId,
+          productName: productName,
+          price: price,
+          url: url,
+        });
+        console.log(
+          `${userId} is adding product with ID ${productId} to the wishlist`
+        );
+        console.log("Success");
+      } catch (error) {
+        console.error("Error occurred while adding item to wishlist:", error);
+      }
+    } else {
       navigate("/login");
     }
   };
@@ -103,7 +117,14 @@ function Home() {
                   <div>
                     <button
                       className="btn btn-dark"
-                      onClick={() => handleAddToCart(product.id, quantity)}
+                      onClick={() =>
+                        handleAddToWishlist(
+                          product.id,
+                          product.name,
+                          product.price,
+                          product.url
+                        )
+                      }
                     >
                       Add to Wishlist <FaHeart style={{ color: "red" }} />
                     </button>
