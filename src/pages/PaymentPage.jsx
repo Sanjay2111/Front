@@ -1,10 +1,18 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { CartContext } from "../CartContext";
+import Confetti from "react-confetti";
 import "./style1.css";
+
 function PaymentPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { cart: cartContext, updateCartItemCount } = useContext(CartContext);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showContent, setShowContent] = useState(true);
   const { authState } = useContext(AuthContext);
 
   const fetchCart = async () => {
@@ -33,6 +41,32 @@ function PaymentPage() {
     }
   }, [authState.userId]);
 
+  const handlePaymentSubmit = async () => {
+    try {
+      const orderDate = new Date();
+      const response = await axios.post(
+        `http://localhost:8080/orders/${authState.userId}`,
+        {
+          orderDate: orderDate.toISOString(),
+          items: cart.items,
+        }
+      );
+      console.log("Order submitted successfully:", response.data);
+      updateCartItemCount(0);
+      setShowConfetti(true);
+      setShowMessage(true);
+      setShowContent(false);
+
+      setTimeout(() => {
+        setShowConfetti(false);
+        setShowMessage(false);
+        setShowContent(true);
+      }, 60000); // Show content again after 1 minute
+    } catch (error) {
+      console.error("Error occurred while submitting the order:", error);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -47,29 +81,57 @@ function PaymentPage() {
   );
   const totalPriceWithTax = (totalPrice + totalPrice * 0.06).toFixed(2);
 
-  const handlePaymentSubmit = async () => {
-    try {
-      const orderDate = new Date();
-      const response = await axios.post(
-        `http://localhost:8080/orders/${authState.userId}`,
-        {
-          orderDate: orderDate.toISOString(),
-          items: cart.items,
-        }
-      );
-      console.log("Order submitted successfully:", response.data);
-    } catch (error) {
-      console.error("Error occurred while submitting the order:", error);
-    }
-  };
-
   return (
-    <>
-      <div>Your Total is {totalPriceWithTax}</div>
-      <button className="btn btn-primary" onClick={handlePaymentSubmit}>
-        Submit Payment
-      </button>
-    </>
+    <div className="container d-flex align-items-center justify-content-center vh-100">
+      {showContent && (
+        <div
+          className="border bg-black p-4 text-center text-danger"
+          style={{ fontSize: "3rem" }}
+        >
+          <div className="d-flex flex-column bg-black text-white align-items-center">
+            <div className="mb-3">Your Total is {totalPriceWithTax}</div>
+            <PayPalScriptProvider
+              options={{
+                "client-id":
+                  "Ad3PTYUT5ibPUfFSQEGp4D2PWOeyl009YU_BTh_ukX8Guy7_PKauBMtJO9i2_DPAYygvNvjZvSGbEJZs",
+              }}
+            >
+              <PayPalButtons
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: totalPrice,
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={(data, actions) => {
+                  return actions.order.capture().then(handlePaymentSubmit);
+                }}
+              />
+            </PayPalScriptProvider>
+            <button
+              className="btn btn-primary mt-3"
+              onClick={handlePaymentSubmit}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={900}
+        />
+      )}
+      {showMessage && <div className="mt-3">Thanks for placing an order!</div>}
+    </div>
   );
 }
 
