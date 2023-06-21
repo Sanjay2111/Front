@@ -4,6 +4,7 @@ import { AuthContext } from "../AuthProvider";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { CartContext } from "../CartContext";
 import Confetti from "react-confetti";
+import { useNavigate } from "react-router";
 import "./style1.css";
 
 function PaymentPage() {
@@ -13,6 +14,7 @@ function PaymentPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showContent, setShowContent] = useState(true);
+  const navigate = useNavigate();
   const { authState } = useContext(AuthContext);
 
   const fetchCart = async () => {
@@ -60,8 +62,8 @@ function PaymentPage() {
       setTimeout(() => {
         setShowConfetti(false);
         setShowMessage(false);
-        setShowContent(true);
-      }, 60000); // Show content again after 1 minute
+        navigate("/"); // Navigate to /home
+      }, 10000); // Show content again after 1 minute
     } catch (error) {
       console.error("Error occurred while submitting the order:", error);
     }
@@ -117,7 +119,7 @@ function PaymentPage() {
               className="btn btn-primary mt-3"
               onClick={handlePaymentSubmit}
             >
-              Submit
+              Get Everything For Free
             </button>
           </div>
         </div>
@@ -130,7 +132,11 @@ function PaymentPage() {
           numberOfPieces={900}
         />
       )}
-      {showMessage && <div className="mt-3">Thanks for placing an order!</div>}
+      {showMessage && (
+        <div className="mt-3">
+          <h1>Thanks for placing an order!</h1>
+        </div>
+      )}
     </div>
   );
 }

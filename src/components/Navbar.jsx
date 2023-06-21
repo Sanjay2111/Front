@@ -6,6 +6,8 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import axios from "axios";
+import { Image } from "react-bootstrap";
+import logo from "../assets/logo.png";
 import { CartContext } from "../CartContext";
 import "../pages/style1.css";
 
@@ -46,7 +48,12 @@ const CNavbar = () => {
         className="justify-content-between"
       >
         <Navbar.Brand as={Link} to="/" className="text-white">
-          My App
+          <img
+            src={logo}
+            alt="Logo"
+            className="logo-image"
+            style={{ width: "150px", height: "50px" }}
+          />
         </Navbar.Brand>
         <Nav.Link as={Link} to="/" className="text-white">
           Home

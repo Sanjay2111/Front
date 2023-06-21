@@ -74,68 +74,96 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        {products.map((product) => {
-          return (
-            <div key={product.id} className="col-md-4 mb-4">
-              <div className="card h-100">
-                <img
-                  src={product.url}
-                  className="card-img-top"
-                  alt={product.name}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    objectFit: "contain",
-                  }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title" style={{ fontWeight: "bold" }}>
-                    {product.name}
-                  </h5>
-                  <p className="card-text">${product.price}</p>
-                  <div className="input-group mb-3">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Quantity"
-                      min="1"
-                      defaultValue="1"
-                      onChange={(e) => {
-                        const newQuantity = parseInt(e.target.value);
-                        setQuantity(newQuantity);
-                      }}
-                    />
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleAddToCart(product.id, quantity)}
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-dark"
-                      onClick={() =>
-                        handleAddToWishlist(
-                          product.id,
-                          product.name,
-                          product.price,
-                          product.url
-                        )
-                      }
-                    >
-                      Add to Wishlist <FaHeart style={{ color: "red" }} />
-                    </button>
+    <>
+      <div className="col-md-12 mb-4">
+        <div className="card h-100" style={{ backgroundColor: "#f8f9fa" }}>
+          <div className="row g-0">
+            <div className="col-md-4">
+              <img
+                src="https://pisces.bbystatic.com/image2/BestBuy_US/dam/ghp-EVN-208412-macbook-75fef0fb-2e54-4601-934f-e68addabfc26.jpg"
+                className="card-img img-fluid"
+                alt="MacBook Air"
+                style={{ width: "80%" }}
+              />
+            </div>
+            <div className="col-md-8 d-flex align-items-center">
+              <div className="card-body text-center">
+                <h5 className="card-title fs-2">MacBook Air 15</h5>
+
+                <h5>Limited time: 24 month financing</h5>
+                <p>
+                  on Apple MacBook Air 15" laptop purchases $1,299 and up with
+                  the Takeo User id. Offer ends 6/26/23.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="row">
+          {products.map((product) => {
+            return (
+              <div key={product.id} className="col-md-4 mb-4">
+                <div className="card h-100">
+                  <img
+                    src={product.url}
+                    className="card-img-top"
+                    alt={product.name}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      objectFit: "contain",
+                    }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title" style={{ fontWeight: "bold" }}>
+                      {product.name}
+                    </h5>
+                    <p className="card-text">${product.price}</p>
+                    <div className="input-group mb-3">
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Quantity"
+                        min="1"
+                        defaultValue="1"
+                        onChange={(e) => {
+                          const newQuantity = parseInt(e.target.value);
+                          setQuantity(newQuantity);
+                        }}
+                      />
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleAddToCart(product.id, quantity)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-dark"
+                        onClick={() =>
+                          handleAddToWishlist(
+                            product.id,
+                            product.name,
+                            product.price,
+                            product.url
+                          )
+                        }
+                      >
+                        Add to Wishlist <FaHeart style={{ color: "red" }} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
