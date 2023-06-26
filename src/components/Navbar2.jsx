@@ -8,8 +8,6 @@ function Navbar2() {
       <Navbar bg="dark" variant="dark">
         <Navbar.Collapse className="justify-content-center">
           <Nav className="w-100 justify-content-start">
-            {" "}
-            {/* Added justify-content-start class */}
             <Nav.Link
               as={Link}
               to="/laptop"

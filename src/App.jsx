@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CNavbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
-// import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import Navbar2 from "./components/Navbar2";
 import LaptopPage from "./pages/LaptopPage";
@@ -14,12 +13,11 @@ import WishlistPage from "./pages/WishlistPage";
 import DealsPage from "./pages/DealsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentPage from "./pages/PaymentPage";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <Router>
-      <CNavbar />
-      <Navbar2 />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
@@ -33,6 +31,7 @@ function App() {
         <Route path="/deals" element={<DealsPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

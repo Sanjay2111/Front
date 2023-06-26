@@ -7,6 +7,8 @@ import { useNavigate } from "react-router";
 import { CartContext } from "../CartContext";
 import { FaArrowRight } from "react-icons/fa";
 import "./style1.css";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 function Cart() {
   const [cart, setCart] = useState(null);
@@ -27,7 +29,7 @@ function Cart() {
       setLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setCart(null); // Set cart to null when 404 error occurs
+        setCart(null);
       } else {
         console.error("Error occurred while fetching cart:", error);
       }
@@ -45,8 +47,8 @@ function Cart() {
     try {
       const url = `http://localhost:8080/carts/${cartContext.cartId}`;
       await axios.delete(url);
-      updateCartItemCount(0); // Reset the cart item count in the context
-      setCart(null); // Reset the local cart state
+      updateCartItemCount(0);
+      setCart(null);
     } catch (error) {
       console.error("Error occurred while deleting cart:", error);
     }
@@ -81,6 +83,8 @@ function Cart() {
 
   return (
     <>
+      <CNavbar />
+      <Navbar2 />
       <div className="text-animation">
         <h2 className="animated-text">
           15% off with promo code <span className="promo-code">"Takeo"</span>

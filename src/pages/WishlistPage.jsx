@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider";
 import { useNavigate } from "react-router-dom";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 function WishlistPage() {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -61,50 +63,55 @@ function WishlistPage() {
   };
 
   return (
-    <div>
-      <h1>{username}'s Wishlist</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {wishlistItems.map((item, index) => (
-            <tr key={item.id}>
-              <td>{index + 1}</td>
-              <td>{item.productName}</td>
-              <td>${item.price}</td>
-              <td>
-                <img
-                  src={item.url}
-                  alt={item.productName}
-                  style={{ width: "100px", height: "auto" }}
-                />
-              </td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleRemoveItem(item.id)}
-                >
-                  Remove
-                </button>
-                <button
-                  className="btn btn-primary ml-2"
-                  onClick={() => handleAddToCart(item.productId, 1)}
-                >
-                  Add to Cart
-                </button>
-              </td>
+    <>
+      <CNavbar />
+      <Navbar2 />
+
+      <div>
+        <h1>{username}'s Wishlist</h1>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product Name</th>
+              <th>Product Price</th>
+              <th>Image</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {wishlistItems.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>{item.productName}</td>
+                <td>${item.price}</td>
+                <td>
+                  <img
+                    src={item.url}
+                    alt={item.productName}
+                    style={{ width: "100px", height: "auto" }}
+                  />
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleRemoveItem(item.id)}
+                  >
+                    Remove
+                  </button>
+                  <button
+                    className="btn btn-primary ml-2"
+                    onClick={() => handleAddToCart(item.productId, 1)}
+                  >
+                    Add to Cart
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 

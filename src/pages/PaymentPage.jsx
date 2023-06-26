@@ -5,6 +5,8 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { CartContext } from "../CartContext";
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 import "./style1.css";
 
 function PaymentPage() {
@@ -84,60 +86,64 @@ function PaymentPage() {
   const totalPriceWithTax = (totalPrice + totalPrice * 0.06).toFixed(2);
 
   return (
-    <div className="container d-flex align-items-center justify-content-center vh-100">
-      {showContent && (
-        <div
-          className="border bg-black p-4 text-center text-danger"
-          style={{ fontSize: "3rem" }}
-        >
-          <div className="d-flex flex-column bg-black text-white align-items-center">
-            <div className="mb-3">Your Total is {totalPriceWithTax}</div>
-            <PayPalScriptProvider
-              options={{
-                "client-id":
-                  "Ad3PTYUT5ibPUfFSQEGp4D2PWOeyl009YU_BTh_ukX8Guy7_PKauBMtJO9i2_DPAYygvNvjZvSGbEJZs",
-              }}
-            >
-              <PayPalButtons
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: {
-                          value: totalPrice,
+    <>
+      <CNavbar />
+      <Navbar2 />
+      <div className="container d-flex align-items-center justify-content-center vh-100">
+        {showContent && (
+          <div
+            className="border bg-black p-4 text-center text-danger"
+            style={{ fontSize: "3rem" }}
+          >
+            <div className="d-flex flex-column bg-black text-white align-items-center">
+              <div className="mb-3">Your Total is {totalPriceWithTax}</div>
+              <PayPalScriptProvider
+                options={{
+                  "client-id":
+                    "Ad3PTYUT5ibPUfFSQEGp4D2PWOeyl009YU_BTh_ukX8Guy7_PKauBMtJO9i2_DPAYygvNvjZvSGbEJZs",
+                }}
+              >
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: totalPrice,
+                          },
                         },
-                      },
-                    ],
-                  });
-                }}
-                onApprove={(data, actions) => {
-                  return actions.order.capture().then(handlePaymentSubmit);
-                }}
-              />
-            </PayPalScriptProvider>
-            <button
-              className="btn btn-primary mt-3"
-              onClick={handlePaymentSubmit}
-            >
-              Get Everything For Free
-            </button>
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then(handlePaymentSubmit);
+                  }}
+                />
+              </PayPalScriptProvider>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={handlePaymentSubmit}
+              >
+                Get Everything For Free
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          recycle={false}
-          numberOfPieces={900}
-        />
-      )}
-      {showMessage && (
-        <div className="mt-3">
-          <h1>Thanks for placing an order!</h1>
-        </div>
-      )}
-    </div>
+        )}
+        {showConfetti && (
+          <Confetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            recycle={false}
+            numberOfPieces={900}
+          />
+        )}
+        {showMessage && (
+          <div className="mt-3">
+            <h1>Thanks for placing an order!</h1>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

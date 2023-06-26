@@ -6,7 +6,6 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import axios from "axios";
-import { Image } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import { CartContext } from "../CartContext";
 import "../pages/style1.css";
@@ -16,7 +15,6 @@ const CNavbar = () => {
   const { authState, setAuthState } = useContext(AuthContext);
 
   const handleLogout = () => {
-    // Clear the authentication state and remove the token and username from localStorage
     setAuthState({ token: "", username: "" });
     localStorage.removeItem("token");
     localStorage.removeItem("username");
@@ -98,7 +96,6 @@ const CNavbar = () => {
           <Nav.Link as={Link} to="/cart" className="text-white">
             <div className="d-flex align-items-center">
               <FaShoppingCart size={30} color="white" />{" "}
-              {/* Adjust the size as per your preference */}
               {cart && cart.totalItems > 0 && (
                 <span className="ml-1 text-danger" style={{ fontSize: "24px" }}>
                   {cart.totalItems}

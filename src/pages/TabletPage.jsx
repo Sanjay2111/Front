@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 import { FaHeart } from "react-icons/fa";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 function Tablets() {
   const [products, setProducts] = useState([]);
@@ -37,7 +39,6 @@ function Tablets() {
         const userId = authState.userId;
         const url = `http://localhost:8080/carts/${userId}`;
 
-        // Send a POST request to add the item to the cart
         const response2 = await axios.post(url, {
           productId: productId,
           quantity: quantity,
@@ -48,76 +49,75 @@ function Tablets() {
         );
         console.log("Success");
 
-        // Update the cart item count
         updateCartItemCount(cartItemCount + 1);
-
-        // Navigate to the cart page
-        // navigate("/");
       } catch (error) {
         console.error("Error occurred while adding item to cart:", error);
       }
     } else {
-      // Navigate to the login page
       navigate("/login");
     }
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        {products.map((product) => {
-          return (
-            <div key={product.id} className="col-md-4 mb-4">
-              <div className="card h-100">
-                <img
-                  src={product.url}
-                  className="card-img-top"
-                  alt={product.name}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    objectFit: "contain",
-                  }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title" style={{ fontWeight: "bold" }}>
-                    {product.name}
-                  </h5>
-                  <p className="card-text">${product.price}</p>
-                  <div className="input-group mb-3">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Quantity"
-                      min="1"
-                      defaultValue="1"
-                      onChange={(e) => {
-                        const newQuantity = parseInt(e.target.value);
-                        setQuantity(newQuantity);
-                      }}
-                    />
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleAddToCart(product.id, quantity)}
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-dark"
-                      onClick={() => handleAddToCart(product.id, quantity)}
-                    >
-                      Add to Wishlist <FaHeart style={{ color: "red" }} />
-                    </button>
+    <>
+      <CNavbar />
+      <Navbar2 />
+      <div className="container">
+        <div className="row">
+          {products.map((product) => {
+            return (
+              <div key={product.id} className="col-md-4 mb-4">
+                <div className="card h-100">
+                  <img
+                    src={product.url}
+                    className="card-img-top"
+                    alt={product.name}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      objectFit: "contain",
+                    }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title" style={{ fontWeight: "bold" }}>
+                      {product.name}
+                    </h5>
+                    <p className="card-text">${product.price}</p>
+                    <div className="input-group mb-3">
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Quantity"
+                        min="1"
+                        defaultValue="1"
+                        onChange={(e) => {
+                          const newQuantity = parseInt(e.target.value);
+                          setQuantity(newQuantity);
+                        }}
+                      />
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleAddToCart(product.id, quantity)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-dark"
+                        onClick={() => handleAddToCart(product.id, quantity)}
+                      >
+                        Add to Wishlist <FaHeart style={{ color: "red" }} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

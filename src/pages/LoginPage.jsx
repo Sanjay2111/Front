@@ -3,6 +3,8 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../AuthProvider";
 import { useNavigate } from "react-router-dom";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 const LoginPage = () => {
   const [formMode, setFormMode] = useState("login");
@@ -53,9 +55,9 @@ const LoginPage = () => {
       );
 
       if (response.status === 200) {
-        const { authorization, username, userId } = response.data;
+        const { authorization, username, userId, role } = response.data;
 
-        // Save the token and username in local storage
+        // Save the token, username, and userId in local storage
         localStorage.setItem("token", authorization);
         localStorage.setItem("username", username);
         localStorage.setItem("userId", userId);
@@ -69,7 +71,13 @@ const LoginPage = () => {
 
         // Perform any necessary actions upon successful login
         alert("Login successful");
-        navigate("/");
+
+        // Navigate based on user role
+        if (role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         setError("Invalid username or password");
       }
@@ -118,124 +126,129 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="col-lg-4 border border-primary p-4 bg-white">
-        {formMode === "login" ? (
-          <>
-            <h2 className="text-center">Login</h2>
-            <form onSubmit={handleLogin}>
-              {/* Login form fields */}
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label">
-                  Username:
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  className="form-control"
-                  value={username}
-                  onChange={handleUsernameChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password:
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-              {/* Form actions */}
-              <div className="d-grid gap-2">
-                <button type="submit" className="btn btn-primary">
-                  Login
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleFormModeSwitch}
-                >
-                  Create Account
-                </button>
-              </div>
-            </form>
-          </>
-        ) : (
-          <>
-            <h2 className="text-center">Create Account</h2>
-            <form onSubmit={handleCreateAccount}>
-              {/* Create account form fields */}
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label">
-                  Username:
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  className="form-control"
-                  value={username}
-                  onChange={handleUsernameChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email:
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  value={email}
-                  onChange={handleEmailChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password:
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="confirmPassword" className="form-label">
-                  Confirm Password:
-                </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  className="form-control"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                />
-              </div>
-              {/* Form actions */}
-              <div className="d-grid gap-2">
-                <button type="submit" className="btn btn-primary">
-                  Create Account
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleFormModeSwitch}
-                >
-                  Back to Login
-                </button>
-              </div>
-            </form>
-          </>
-        )}
-        {error && <p className="text-danger">{error}</p>}
+    <>
+      <CNavbar />
+      <Navbar2 />
+
+      <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="col-lg-4 border border-primary p-4 bg-white">
+          {formMode === "login" ? (
+            <>
+              <h2 className="text-center">Login</h2>
+              <form onSubmit={handleLogin}>
+                {/* Login form fields */}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label">
+                    Username:
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    className="form-control"
+                    value={username}
+                    onChange={handleUsernameChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+                {/* Form actions */}
+                <div className="d-grid gap-2">
+                  <button type="submit" className="btn btn-primary">
+                    Login
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleFormModeSwitch}
+                  >
+                    Create Account
+                  </button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <>
+              <h2 className="text-center">Create Account</h2>
+              <form onSubmit={handleCreateAccount}>
+                {/* Create account form fields */}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label">
+                    Username:
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    className="form-control"
+                    value={username}
+                    onChange={handleUsernameChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="confirmPassword" className="form-label">
+                    Confirm Password:
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    className="form-control"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                </div>
+                {/* Form actions */}
+                <div className="d-grid gap-2">
+                  <button type="submit" className="btn btn-primary">
+                    Create Account
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleFormModeSwitch}
+                  >
+                    Back to Login
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+          {error && <p className="text-danger">{error}</p>}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 import { FaHeart } from "react-icons/fa";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -75,6 +77,8 @@ function Home() {
 
   return (
     <>
+      <CNavbar />
+      <Navbar2 />
       <div className="col-md-12 mb-4">
         <div className="card h-100" style={{ backgroundColor: "#f8f9fa" }}>
           <div className="row g-0">

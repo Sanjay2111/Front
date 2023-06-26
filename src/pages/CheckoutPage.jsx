@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import { CartContext } from "../CartContext";
 import { FaArrowRight } from "react-icons/fa";
 import "./style1.css";
+import CNavbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 
 function CheckoutPage() {
   const [cart, setCart] = useState(null);
@@ -58,6 +60,8 @@ function CheckoutPage() {
 
   return (
     <>
+      <CNavbar />
+      <Navbar2 />
       <div className="text-animation">
         <h2 className="animated-text">
           15% off with promo code <span className="promo-code">"Takeo"</span>

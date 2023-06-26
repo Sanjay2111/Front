@@ -1,0 +1,53 @@
+.admin-navbar-container {
+  display: flex;
+  height: 100vh;
+}
+
+.admin-vertical-navbar {
+  background-color: black;
+  flex-basis: 13%;
+}
+
+.admin-main-content {
+  flex-grow: 1;
+  background-color: white;
+}
+.navbar-nav.flex-column {
+  margin-top: 20px;
+}
+
+.navbar-nav.flex-column .nav-link {
+  padding: 10px 20px;
+  margin-bottom: 50px;
+}
+
+.navbar-nav.flex-column .nav-link:not(:last-child) {
+  margin-bottom: 10px;
+}
+.navbar-nav.flex-column .nav-link {
+  padding: 10px 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-nav.flex-column .nav-link:hover {
+  background-color: white;
+
+  color: red !important;
+}
+.calendar-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table-container {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+.dash {
+  background-color: lightblue;
+}
